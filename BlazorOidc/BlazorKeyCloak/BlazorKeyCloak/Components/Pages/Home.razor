@@ -1,0 +1,22 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components.Authorization
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+
+<AuthorizeView>
+    <Authorized>
+        <h4>Hello, @context?.User!.Identity!.Name! You are logged in.</h4>
+    </Authorized>
+    <NotAuthorized>
+        <h4>Please log in to see more content.</h4>
+    </NotAuthorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="admin">
+    <p>This text is visible only to users with the 'admin' role.</p>
+</AuthorizeView>

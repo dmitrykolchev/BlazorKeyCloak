@@ -1,0 +1,15 @@
+﻿@page "/manager-only"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Manager")]
+
+@rendermode InteractiveServer
+
+@* 
+// Раскомментируйте ОДНУ из следующих строк для теста:
+// @rendermode InteractiveServer 
+// @rendermode InteractiveWebAssembly
+// (если ничего не указано, будет статический SSR)
+ *@
+<h3>Manager-Only Area</h3>
+
+<p>If you see this, you are a Manager!</p>
