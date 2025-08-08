@@ -16,6 +16,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlazorOidc", "BlazorOidc", "{B836E2C7-8D15-4A41-8A76-AE410D533D72}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		Summary.md = Summary.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorKeyCloak", "BlazorOidc\BlazorKeyCloak\BlazorKeyCloak\BlazorKeyCloak.csproj", "{266C820E-C405-4688-BECA-D8E0FB8CD404}"
