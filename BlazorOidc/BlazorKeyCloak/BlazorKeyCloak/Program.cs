@@ -1,27 +1,28 @@
-using BlazorKeyCloak.Client.Pages;
 using BlazorKeyCloak.Components;
+using BlazorKeyCloak.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text.Json;
 
 
 namespace BlazorKeyCloak;
+
 public class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         var keycloakSettings = builder.Configuration.GetSection("Keycloak");
-        
-        // Отключаем стандартный маппинг входящих claim'ов
-        //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-        // Добавляем сервисы аутентификации
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(connectionString));
+
         builder.Services.AddAuthentication(options =>
         {
             options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -34,72 +35,18 @@ public class Program
             options.ClientId = keycloakSettings["ClientId"];
             options.ClientSecret = keycloakSettings["ClientSecret"];
             options.MetadataAddress = keycloakSettings["MetadataAddress"];
-            options.RequireHttpsMetadata = false; // Для локальной разработки с http Keycloak
+            options.RequireHttpsMetadata = false; // For local development http Keycloak
             options.SaveTokens = true;
             options.ResponseType = OpenIdConnectResponseType.Code; // Standard flow
             options.GetClaimsFromUserInfoEndpoint = false;
             options.Scope.Add("openid");
             options.Scope.Add("profile");
-            options.Scope.Add("roles"); // Запрашиваем scope с ролями
-            //options.Events.OnTokenValidated = context =>
-            //{
-            //    // Получаем identity пользователя
-            //    if (context.Principal?.Identity is not ClaimsIdentity identity)
-            //    {
-            //        return Task.CompletedTask;
-            //    }
-
-            //    // Ищем наш сложный claim "resource_access"
-            //    var resourceAccessClaim = context.Principal.FindFirst("resource_access");
-            //    if (resourceAccessClaim is null || string.IsNullOrEmpty(resourceAccessClaim.Value))
-            //    {
-            //        return Task.CompletedTask;
-            //    }
-
-            //    // Десериализуем его содержимое
-            //    try
-            //    {
-            //        // Используем JsonDocument для парсинга JSON без создания строгих классов
-            //        using var resourceAccessDoc = JsonDocument.Parse(resourceAccessClaim.Value);
-
-            //        // Получаем clientId (имя вашего клиента, например, "BKU2")
-            //        var clientId = options.ClientId; // Получаем ID клиента из настроек
-
-            //        // Проверяем, есть ли в resource_access секция для нашего клиента
-            //        if (resourceAccessDoc.RootElement.TryGetProperty(clientId, out var clientResource))
-            //        {
-            //            // Проверяем, есть ли в этой секции поле "roles"
-            //            if (clientResource.TryGetProperty("roles", out var rolesElement))
-            //            {
-            //                // Перебираем роли в JSON-массиве
-            //                if (rolesElement.ValueKind == JsonValueKind.Array)
-            //                {
-            //                    foreach (var role in rolesElement.EnumerateArray())
-            //                    {
-            //                        var roleValue = role.GetString();
-            //                        if (!string.IsNullOrEmpty(roleValue))
-            //                        {
-            //                            // Добавляем новый claim с правильным типом роли для ASP.NET Core
-            //                            identity.AddClaim(new Claim("role", roleValue));
-            //                        }
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //    catch (JsonException)
-            //    {
-            //        // Логирование ошибки, если JSON некорректный
-            //    }
-
-            //    return Task.CompletedTask;
-            //};
-
+            options.Scope.Add("roles"); // Request scope with roles
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 NameClaimType = "name",
-                RoleClaimType = ClaimTypes.Role 
-                
+                RoleClaimType = ClaimTypes.Role
+
             };
         });
 
@@ -131,11 +78,35 @@ public class Program
         app.UseStaticFiles();
         app.UseAntiforgery();
 
-        // Включаем аутентификацию и авторизацию
+        // Enable authentication and authorization
         app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapStaticAssets();
+
+        // API for all authorized users
+        app.MapGet("/api/products", (ApplicationDbContext db, ClaimsPrincipal user) =>
+        {
+            // If the user is not an Manager, we show only public products
+            if (!user.IsInRole("Manager"))
+            {
+                return Results.Ok(db.Products.Where(p => !p.RequiresAdminAccess).ToList());
+            }
+
+            // Managers can access all products
+            return Results.Ok(db.Products.ToList());
+
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Employee,Manager" });
+
+
+        // API only for Managers
+        app.MapPost("/api/products", (Product product, ApplicationDbContext db) =>
+        {
+            db.Products.Add(product);
+            db.SaveChanges();
+            return Results.Created($"/api/products/{product.Id}", product);
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Manager" });
+
         app.MapGet("/Account/Login", async (HttpContext httpContext, string redirectUri = "/") =>
         {
             await httpContext.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme,
@@ -143,9 +114,9 @@ public class Program
         });
         app.MapGet("/Account/Logout", async (HttpContext httpContext, string redirectUri = "/") =>
         {
-            // Сначала выходим из локального cookie
+            // First, delete local cookie
             await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            // Затем инициируем выход из OpenID Connect провайдера (Keycloak)
+            // Initiate the logout from the OpenID Connect provider (Keycloak)
             await httpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme,
             new AuthenticationProperties { RedirectUri = redirectUri });
         });

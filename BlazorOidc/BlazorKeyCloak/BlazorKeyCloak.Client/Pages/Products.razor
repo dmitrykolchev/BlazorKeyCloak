@@ -1,0 +1,60 @@
+﻿@page "/products"
+
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+@attribute [Authorize]
+
+@using BlazorKeyCloak.Data
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<PageTitle>Products</PageTitle>
+
+<h3>Products</h3>
+
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Product[]? products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            products = await Http.GetFromJsonAsync<Product[]>("api/products");
+            Console.WriteLine(products);
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            Console.WriteLine(exception);
+            // Если токен недоступен (сессия истекла), перенаправляем на логин
+            exception.Redirect();
+        }
+    }
+}

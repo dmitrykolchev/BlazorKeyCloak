@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 namespace BlazorKeyCloak.Client;
@@ -7,15 +8,23 @@ internal class Program
     {
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-        // Настройка OIDC для клиента
+        // Configure OIDC for Blazor client
         builder.Services.AddOidcAuthentication(options =>
         {
-            // Конфигурация берется с сервера, но можно и явно указать
+            // The configuration is taken from the server, but you can also specify it explicitly
             builder.Configuration.Bind("Keycloak", options.ProviderOptions);
             options.ProviderOptions.ResponseType = "code";
-            // Добавляем scope ролей
+            // Adding role scope
             options.ProviderOptions.DefaultScopes.Add("roles");
         });
+
+        // Add HttpClient to call our server API
+        builder.Services.AddHttpClient("ServerApi", client =>
+            client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
+            .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+        // We register a typed client for convenience
+        builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
+            .CreateClient("ServerApi"));
 
         await builder.Build().RunAsync();
     }

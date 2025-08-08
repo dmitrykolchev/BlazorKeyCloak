@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36327.8 d17.14
+VisualStudioVersion = 17.14.36327.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebAppWebAssemblyRender", "BlazorWebAppWebAssemblyRender\BlazorWebAppWebAssemblyRender\BlazorWebAppWebAssemblyRender.csproj", "{EDD355B1-346D-4A20-80B8-CCA6CA15F19B}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorKeyCloak", "BlazorOidc\BlazorKeyCloak\BlazorKeyCloak\BlazorKeyCloak.csproj", "{266C820E-C405-4688-BECA-D8E0FB8CD404}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorKeyCloak.Client", "BlazorOidc\BlazorKeyCloak\BlazorKeyCloak.Client\BlazorKeyCloak.Client.csproj", "{192CCA4A-1C69-4A3C-A11E-17F89071A6A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorKeyCloak.Data", "BlazorOidc\BlazorKeyCloak\BlazorKeyCloak.Data\BlazorKeyCloak.Data.csproj", "{A1D05E21-417F-4305-9A68-F2A4119EA598}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{192CCA4A-1C69-4A3C-A11E-17F89071A6A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{192CCA4A-1C69-4A3C-A11E-17F89071A6A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{192CCA4A-1C69-4A3C-A11E-17F89071A6A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1D05E21-417F-4305-9A68-F2A4119EA598}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1D05E21-417F-4305-9A68-F2A4119EA598}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1D05E21-417F-4305-9A68-F2A4119EA598}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1D05E21-417F-4305-9A68-F2A4119EA598}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{30764F68-151C-466A-9A05-2B9CFBDF7A36} = {D8305E80-14D6-48AC-8CE3-995E9197A8AB}
 		{266C820E-C405-4688-BECA-D8E0FB8CD404} = {B836E2C7-8D15-4A41-8A76-AE410D533D72}
 		{192CCA4A-1C69-4A3C-A11E-17F89071A6A5} = {B836E2C7-8D15-4A41-8A76-AE410D533D72}
+		{A1D05E21-417F-4305-9A68-F2A4119EA598} = {B836E2C7-8D15-4A41-8A76-AE410D533D72}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C745ADE7-4D2F-4B3F-B951-3E0CE5C8C874}
