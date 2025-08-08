@@ -48,3 +48,15 @@ This creates a conflict. Because of this we need to create the second client `BK
 <img width="1059" height="776" alt="image" src="https://github.com/user-attachments/assets/18083cfb-af0c-4f6d-94a7-ed7664df6c5f" />
 <img width="1246" height="443" alt="image" src="https://github.com/user-attachments/assets/190043c6-df03-4dab-b45a-9aada7614047" />
 
+## Summary
+
+Blazor Server (BlazorKeyCloak):
+Is a confidential client. It can securely store Client Secret. Uses Client Secret to authenticate the app itself to 
+KeyCloak during the "Authorization Code Flow". Its job is to establish a secure session for the user (via cookie). 
+Uses the BKU2 client.
+
+Blazor WASM Client (BlazorKeyCloak.Client):
+Is a public client. All of its code (including configuration) is loaded into the user's browser and cannot store any secrets.
+It does not need Client Secret. It uses the more secure PKCE (Proof Key for Code Exchange) mechanism, which is built into the 
+Blazor OIDC library, to protect the "Authorization Code Flow". Its job is to obtain an Access Token to call protected APIs.
+Uses the new BKU2-PUB client, which has Client authentication disabled.
