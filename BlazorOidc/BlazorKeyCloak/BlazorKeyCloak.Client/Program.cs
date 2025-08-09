@@ -21,6 +21,8 @@ internal class Program
             options.ProviderOptions.DefaultScopes.Add("bku2-api:access");
 
         });
+        builder.Services.AddTransient<CustomAuthorizationMessageHandler>();
+
         // Add HttpClient to call our server API
         builder.Services.AddHttpClient("ServerApi", client =>
             client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
