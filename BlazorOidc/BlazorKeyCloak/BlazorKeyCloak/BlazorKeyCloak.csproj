@@ -15,7 +15,7 @@
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<ProjectReference Include="..\BlazorKeyCloak.Client\BlazorKeyCloak.Client.csproj" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />
+		<!--<PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />-->
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.0-preview.6.25358.103" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.0-preview.6.25358.103" />
 	</ItemGroup>

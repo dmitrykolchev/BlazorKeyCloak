@@ -1,8 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
+@rendermode InteractiveServer
+
 @inject NavigationManager Navigation
-@inject SignOutSessionStateManager SignOutManager
 
 <AuthorizeView>
     <Authorized>
@@ -17,14 +18,12 @@
 </AuthorizeView>
 
 @code {
-    private async Task BeginSignOut()
+    private Task BeginSignOut()
     {
-        // Это важно для компонентов WebAssembly, чтобы они поняли, что сессия завершена.
-        await SignOutManager.SetSignOutState();
-
         // Переходим на наш новый эндпоинт выхода.
         // forceLoad: true заставляет браузер сделать полный HTTP-запрос к серверу,
         // а не пытаться обработать навигацию на клиенте. Это ключевой момент!
         Navigation.NavigateTo("/Account/Logout", forceLoad: true);
+        return Task.CompletedTask;
     }
 }

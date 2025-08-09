@@ -12,9 +12,6 @@ namespace Sam.Security;
 
 public class CustomOpenIdConnectEvents : OpenIdConnectEvents
 {
-    private const string LoginHintCookie = ".sam.login_hint";
-    private const string UIThemeParameter = "ui_theme";
-
     public override Task UserInformationReceived(UserInformationReceivedContext context)
     {
         string jsonText = JsonSerializer.Serialize(context.User.RootElement);
@@ -28,7 +25,7 @@ public class CustomOpenIdConnectEvents : OpenIdConnectEvents
         if (context.ProtocolMessage.IdToken != null)
         {
             // Add the id_token as a claim to the user's identity
-            ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("id_token", context.ProtocolMessage.IdToken));
+            ((ClaimsIdentity?)context?.Principal?.Identity)?.AddClaim(new Claim("id_token", context.ProtocolMessage.IdToken));
         }
     }
 

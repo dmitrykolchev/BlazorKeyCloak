@@ -1,0 +1,19 @@
+﻿@page "/authentication/{action}"
+
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+@* 
+    // RemoteAuthenticatorView - это стандартный компонент из библиотеки аутентификации.
+    // Он сам знает, что делать с разными {action}, такими как "login", "logout", "register".
+    // Он обработает callback, но не будет ничего рендерить, так как процесс
+    // аутентификации - это серия редиректов.
+ *@
+ <RemoteAuthenticatorView Action="@Action" />
+
+@code {
+    [Parameter]
+    public string? Action { get; set; }
+}
