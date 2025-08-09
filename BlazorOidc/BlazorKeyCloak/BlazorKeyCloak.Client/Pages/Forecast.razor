@@ -1,0 +1,53 @@
+﻿@page "/forecast"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Net.Http.Headers
+
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+@attribute [Authorize]
+
+@* @inject NavigationManager Navigation
+
+@inject IAccessTokenProvider TokenProvider
+ *@
+
+<PageTitle>Forecast</PageTitle>
+
+<h3>Forecast</h3>
+
+@code {
+    private Forecast[]? forecast;
+
+    [Inject(Key = "MySecondApi")]
+    public HttpClient Http { get; set; } = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, "api/WeatherForecast");
+            // var tokenResult = await TokenProvider.RequestAccessToken();
+            // tokenResult.TryGetToken(out var token);
+            // var authHeader = new AuthenticationHeaderValue("Bearer", token!.Value);
+            // requestMessage.Headers.Authorization = authHeader;
+            // HttpResponseMessage response = await Http.SendAsync(requestMessage);
+            // response.EnsureSuccessStatusCode();
+            // forecast = await response.Content.ReadFromJsonAsync<Forecast[]>();
+            forecast = await Http.GetFromJsonAsync<Forecast[]>("api/WeatherForecast");
+            if (forecast != null)
+            {
+                foreach (var item in forecast)
+                {
+                    Console.WriteLine(item);
+                }
+            }
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            Console.WriteLine(exception);
+            // Если токен недоступен (сессия истекла), перенаправляем на логин
+            exception.Redirect();
+        }
+    }
+}

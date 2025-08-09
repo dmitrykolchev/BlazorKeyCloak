@@ -1,15 +1,11 @@
 ﻿@page "/products"
-
-@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
-
-@attribute [Authorize]
-
 @using BlazorKeyCloak.Data
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
-@inject HttpClient Http
-@inject NavigationManager Navigation
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+@attribute [Authorize]
 
 <PageTitle>Products</PageTitle>
 
@@ -42,6 +38,9 @@ else
 
 @code {
     private Product[]? products;
+
+    [Inject(Key = "ServerApi")]
+    public HttpClient Http { get; set; } = null!;
 
     protected override async Task OnInitializedAsync()
     {

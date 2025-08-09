@@ -15,16 +15,24 @@ internal class Program
             builder.Configuration.Bind("Keycloak", options.ProviderOptions);
             options.ProviderOptions.ResponseType = "code";
             // Adding role scope
+            options.ProviderOptions.DefaultScopes.Add("openid");
+            options.ProviderOptions.DefaultScopes.Add("profile");
             options.ProviderOptions.DefaultScopes.Add("roles");
-        });
+            options.ProviderOptions.DefaultScopes.Add("bku2-api:access");
 
+        });
         // Add HttpClient to call our server API
         builder.Services.AddHttpClient("ServerApi", client =>
             client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
-            .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
-        // We register a typed client for convenience
-        builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
-            .CreateClient("ServerApi"));
+            .AddAsKeyed()
+            .AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+
+        // HttpClient для второго, внешнего API
+        builder.Services.AddHttpClient("MySecondApi",
+            client => client.BaseAddress = new Uri("https://localhost:7055/"))
+            .AddAsKeyed()
+            .AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+
 
         await builder.Build().RunAsync();
     }
