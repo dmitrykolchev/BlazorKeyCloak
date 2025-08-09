@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace BlazorKeyCloak.Data;
+namespace BlazorKeycloak.Data;
 
 public class ApplicationDbContext : DbContext
 {

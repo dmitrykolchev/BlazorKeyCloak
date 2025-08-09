@@ -1,6 +1,6 @@
-@BlazorKeycloak.ExternalApi_HostAddress = http://localhost:5091
+@BlazorKeycloak.ExternalApi_HostAddress = https://localhost:7055
 
-GET {{BlazorKeycloak.ExternalApi_HostAddress}}/weatherforecast/
+GET {{BlazorKeycloak.ExternalApi_HostAddress}}/api/weatherforecast/
 Accept: application/json
 
 ###

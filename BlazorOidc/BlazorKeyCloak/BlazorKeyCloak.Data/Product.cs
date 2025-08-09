@@ -1,4 +1,4 @@
-﻿namespace BlazorKeyCloak.Data;
+﻿namespace BlazorKeycloak.Data;
 
 public class Product
 {
