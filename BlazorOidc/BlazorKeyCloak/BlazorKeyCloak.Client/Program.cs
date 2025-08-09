@@ -28,7 +28,7 @@ internal class Program
             .AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 
         // HttpClient для второго, внешнего API
-        builder.Services.AddHttpClient("MySecondApi",
+        builder.Services.AddHttpClient("SecondApi",
             client => client.BaseAddress = new Uri("https://localhost:7055/"))
             .AddAsKeyed()
             .AddHttpMessageHandler<CustomAuthorizationMessageHandler>();

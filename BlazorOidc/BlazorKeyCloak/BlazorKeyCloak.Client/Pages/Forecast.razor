@@ -19,7 +19,7 @@
 @code {
     private Forecast[]? forecast;
 
-    [Inject(Key = "MySecondApi")]
+    [Inject(Key = "SecondApi")]
     public HttpClient Http { get; set; } = null!;
 
     protected override async Task OnInitializedAsync()
