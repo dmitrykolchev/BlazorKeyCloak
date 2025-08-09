@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlazorKeyCloak.Data\BlazorKeycloak.Data.csproj" />
+    <ProjectReference Include="..\BlazorKeycloak.Data\BlazorKeycloak.Data.csproj" />
   </ItemGroup>
 
 </Project>

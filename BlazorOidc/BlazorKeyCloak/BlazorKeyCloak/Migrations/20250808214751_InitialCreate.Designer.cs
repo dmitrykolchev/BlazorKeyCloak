@@ -24,7 +24,7 @@ namespace BlazorKeycloak.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BlazorKeyCloak.Data.Product", b =>
+            modelBuilder.Entity("BlazorKeycloak.Data.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

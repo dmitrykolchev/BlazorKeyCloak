@@ -1,6 +1,6 @@
 # Blazor Application & Keyсloak
 
-Blazor Application uses KeyCloak authentication to authorize access to pages, database data and REST API.
+Blazor Application uses `Keycloak` authentication to authorize access to pages, database data and REST API.
 
 ## Requirements
 
@@ -22,10 +22,10 @@ docker run -d -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD={A
 4. Add client roles `Employee` and `Manager`
 5. In the client scope `BKU2-dedicated` create role mapper
 6. Add users `Employee` and `Manager`. Assign role `Employee` to the user `Employee` and `Manager` to the user `Manager`. Don't forget set user's passwords.
-7. Check and edit `BlazorKeyCloak\appsettings.json` to set correspondent parameters
+7. Check and edit `BlazorKeycloak\appsettings.json` to set correspondent parameters
 8. Create `BKU2-PUB` client that will be used by the Blazor BACM client and will not use Client authentication (see image bellow)
-9. Check and edit configuration file `BlazorKeyCloak.Client\wwwroot\appsettings.json`
-10. After realm configured you can run `BlazorKeyCloak` application.
+9. Check and edit configuration file `BlazorKeycloak.Client\wwwroot\appsettings.json`
+10. After realm configured you can run `BlazorKeycloak` application.
 
 After that steps server authentication works.
 
@@ -50,12 +50,12 @@ This creates a conflict. Because of this we need to create the second client `BK
 
 ## Summary
 
-Blazor Server (BlazorKeyCloak):
+Blazor Server (BlazorKeycloak):
 Is a confidential client. It can securely store Client Secret. Uses Client Secret to authenticate the app itself to 
 Keyсloak during the "Authorization Code Flow". Its job is to establish a secure session for the user (via cookie). 
 Uses the BKU2 client.
 
-Blazor WASM Client (BlazorKeyCloak.Client):
+Blazor WASM Client (BlazorKeycloak.Client):
 Is a public client. All of its code (including configuration) is loaded into the user's browser and cannot store any secrets.
 It does not need Client Secret. It uses the more secure PKCE (Proof Key for Code Exchange) mechanism, which is built into the 
 Blazor OIDC library, to protect the "Authorization Code Flow". Its job is to obtain an Access Token to call protected APIs.

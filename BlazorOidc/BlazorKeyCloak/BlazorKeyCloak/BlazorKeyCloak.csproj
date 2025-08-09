@@ -20,7 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\BlazorKeyCloak.Client\BlazorKeycloak.Client.csproj" />
+	  <ProjectReference Include="..\BlazorKeycloak.Client\BlazorKeycloak.Client.csproj" />
 	</ItemGroup>
 
 </Project>
