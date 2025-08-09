@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 namespace BlazorKeycloak.Client;
+
 internal class Program
 {
     static async Task Main(string[] args)
