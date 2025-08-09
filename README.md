@@ -1,20 +1,20 @@
-# Blazor Application & KeyCloak
+# Blazor Application & Keyсloak
 
 Blazor Application uses KeyCloak authentication to authorize access to pages, database data and REST API.
 
 ## Requirements
 
-Install KeyCloak. Use Docker Desktop and KeyCloak image
+Install Keyсloak. Use Docker Desktop and Keyсloak image
 1. Pull image
 2. Run image
 
-### Run KeyCloak
+### Run Keyсloak
 ``` cmd
 docker pull quay.io/keycloak/keycloak:latest
 docker run -d -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD={ADMIN_PASSWORD} quay.io/keycloak/keycloak:latest start-dev
 ```
 
-### Configure KeyCloak & Run Example Blazor application
+### Configure Keyсloak & Run Example Blazor application
 
 1. Create `aspnet` realm
 2. Create `BKU2` client
@@ -52,7 +52,7 @@ This creates a conflict. Because of this we need to create the second client `BK
 
 Blazor Server (BlazorKeyCloak):
 Is a confidential client. It can securely store Client Secret. Uses Client Secret to authenticate the app itself to 
-KeyCloak during the "Authorization Code Flow". Its job is to establish a secure session for the user (via cookie). 
+Keyсloak during the "Authorization Code Flow". Its job is to establish a secure session for the user (via cookie). 
 Uses the BKU2 client.
 
 Blazor WASM Client (BlazorKeyCloak.Client):

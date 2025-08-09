@@ -1,10 +1,6 @@
-Of course! Here is a concise summary of the steps we took to implement a complete authentication and authorization solution for a Blazor Web App using Keycloak.
+### Secure Blazor Web App with Keycloak
 
----
-
-### Summary: Secure Blazor Web App with Keycloak
-
-This guide outlines the steps to build a Blazor Web App (.NET 8) with both Server and WebAssembly render modes, integrating Keycloak for authentication and role-based authorization to protect pages, database access, and a Web API.
+This guide outlines the steps to build a Blazor Web App (.NET 10) with both Server and WebAssembly render modes, integrating Keycloak for authentication and role-based authorization to protect pages, database access, and a Web API.
 
 #### 1. Keycloak Configuration
 
