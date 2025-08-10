@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-namespace BlazorKeyCloak.Client;
+namespace BlazorKeycloak.Client;
 internal class Program
 {
     static async Task Main(string[] args)

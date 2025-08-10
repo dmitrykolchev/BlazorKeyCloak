@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
-		<RootNamespace>BlazorKeyCloak</RootNamespace>
+		<RootNamespace>BlazorKeycloak</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -14,10 +14,13 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<ProjectReference Include="..\BlazorKeyCloak.Client\BlazorKeyCloak.Client.csproj" />
 		<!--<PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />-->
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.0-preview.6.25358.103" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.0-preview.6.25358.103" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\BlazorKeyCloak.Client\BlazorKeyCloak.Client.csproj" />
 	</ItemGroup>
 
 </Project>

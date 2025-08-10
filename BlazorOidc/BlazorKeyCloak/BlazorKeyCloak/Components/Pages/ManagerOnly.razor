@@ -1,4 +1,8 @@
 ﻿@page "/manager-only"
+@using BlazorKeycloak
+@using BlazorKeycloak.Client
+@using BlazorKeycloak.Components
+@using BlazorKeycloak.Components.Layout
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize(Roles = "Manager")]
 

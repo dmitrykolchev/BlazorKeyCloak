@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace BlazorKeyCloak.Migrations
+namespace BlazorKeycloak.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

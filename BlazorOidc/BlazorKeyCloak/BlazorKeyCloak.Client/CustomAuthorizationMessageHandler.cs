@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
-namespace BlazorKeyCloak.Client;
+namespace BlazorKeycloak.Client;
 
 public class CustomAuthorizationMessageHandler : AuthorizationMessageHandler
 {
