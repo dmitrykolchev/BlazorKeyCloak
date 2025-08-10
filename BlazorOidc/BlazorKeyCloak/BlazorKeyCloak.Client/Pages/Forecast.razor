@@ -1,23 +1,47 @@
 ﻿@page "/forecast"
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using System.Net.Http.Headers
 
 @rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
 
 @attribute [Authorize]
 
-@* @inject NavigationManager Navigation
 
-@inject IAccessTokenProvider TokenProvider
- *@
+<PageTitle>Forecasts</PageTitle>
 
-<PageTitle>Forecast</PageTitle>
+<h1>Forecasts</h1>
 
-<h3>Forecast</h3>
+<p>This component demonstrates showing data receiving from REST API.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th aria-label="Temperature in Celsius">Temp. (C)</th>
+                <th aria-label="Temperature in Fahrenheit">Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 @code {
-    private Forecast[]? forecast;
+    private WeatherForecast[]? forecasts;
 
     [Inject(Key = "SecondApi")]
     public HttpClient Http { get; set; } = null!;
@@ -34,14 +58,7 @@
             // HttpResponseMessage response = await Http.SendAsync(requestMessage);
             // response.EnsureSuccessStatusCode();
             // forecast = await response.Content.ReadFromJsonAsync<Forecast[]>();
-            forecast = await Http.GetFromJsonAsync<Forecast[]>("api/WeatherForecast");
-            if (forecast != null)
-            {
-                foreach (var item in forecast)
-                {
-                    Console.WriteLine(item);
-                }
-            }
+            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("api/WeatherForecast");
         }
         catch (AccessTokenNotAvailableException exception)
         {
@@ -49,5 +66,16 @@
             // Если токен недоступен (сессия истекла), перенаправляем на логин
             exception.Redirect();
         }
+    }
+
+    public class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+
+        public string? Summary { get; set; }
     }
 }
